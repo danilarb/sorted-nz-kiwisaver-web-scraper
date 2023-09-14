@@ -232,25 +232,25 @@ def get_headers():
         'Fee %',
         'Return % (last 5 years)',
         'Estimated Final Balance (Salary Sacrifice at 3%, ' +
-        'Employer Contribution at 3% and maximum Government Contribution)',
+        'Employer Contribution at 3% and Government Contribution)',
         'Estimated Final Balance (Salary Sacrifice at 4%, ' +
-        'Employer Contribution at 3% and maximum Government Contribution)',
+        'Employer Contribution at 3% and Government Contribution)',
         'Estimated Final Balance (Salary Sacrifice at 6%, ' +
-        'Employer Contribution at 3% and maximum Government Contribution)',
+        'Employer Contribution at 3% and Government Contribution)',
         'Estimated Final Balance (Salary Sacrifice at 8%, ' +
-        'Employer Contribution at 3% and maximum Government Contribution)',
+        'Employer Contribution at 3% and Government Contribution)',
         'Estimated Final Balance (Salary Sacrifice at 10%, ' +
-        'Employer Contribution at 3% and maximum Government Contribution)',
+        'Employer Contribution at 3% and Government Contribution)',
         'Estimated Final Balance (Salary Sacrifice at 3%, ' +
-        'Employer Contribution at 4% and maximum Government Contribution)',
+        'Employer Contribution at 4% and Government Contribution)',
         'Estimated Final Balance (Salary Sacrifice at 4%, ' +
-        'Employer Contribution at 4% and maximum Government Contribution)',
+        'Employer Contribution at 4% and Government Contribution)',
         'Estimated Final Balance (Salary Sacrifice at 6%, ' +
-        'Employer Contribution at 4% and maximum Government Contribution)',
+        'Employer Contribution at 4% and Government Contribution)',
         'Estimated Final Balance (Salary Sacrifice at 8%, ' +
-        'Employer Contribution at 4% and maximum Government Contribution)',
+        'Employer Contribution at 4% and Government Contribution)',
         'Estimated Final Balance (Salary Sacrifice at 10%, ' +
-        'Employer Contribution at 4% and maximum Government Contribution)'
+        'Employer Contribution at 4% and Government Contribution)'
     ]
 
 
