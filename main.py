@@ -1,5 +1,7 @@
 """
-This is a simple example of a web scraper that uses Selenium and BeautifulSoup to scrape data.
+Generates an estimated final KiwiSaver balance for all
+available KiwiSaver funds with 5 or more years of data.
+Web scraper.
 """
 import time
 import json
