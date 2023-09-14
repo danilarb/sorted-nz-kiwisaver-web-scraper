@@ -10,6 +10,7 @@ import os
 
 import selenium
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 
@@ -24,15 +25,19 @@ GOVT_CONTRIBUTION = float(os.environ['GOVT_CONTRIBUTION'])
 SALARY_SACRIFICES = [0.03, 0.04, 0.06, 0.08, 0.1]
 EMPLOYER_CONTRIBUTIONS = [0.03, 0.04]
 
+chrome_options = Options()
+chrome_options.add_argument("--headless")  # Run Chrome in headless mode
 
 def main():
     """
     Script entry point
     """
+    print('Starting')
+
     if not os.path.isfile('sorted.html'):
         html_content = parse_html()
     else:
-        with (open('sorted.html', 'r', encoding='utf-8')) as file:
+        with open('sorted.html', 'r', encoding='utf-8') as file:
             html_content = file.read()
 
     print('Loaded HTML')
@@ -40,25 +45,26 @@ def main():
     soup = BeautifulSoup(html_content, 'html.parser')
 
     if not os.path.isfile('sorted.html'):
-        with (open('sorted.html', 'w', encoding='utf-8')) as file:
+        with open('sorted.html', 'w', encoding='utf-8') as file:
             file.write(soup.prettify())
 
         print('Written HTML to file')
+
     print('Starting conversion')
     my_funds = get_my_funds(soup)
     print('Conversion successful')
     write_json_csv_files(my_funds)
     print('Done')
 
-
 def parse_html():
     """
     Parse the html with selenium webdriver
     """
+    print('Starting to scrape')
     url = ('https://smartinvestor.sorted.org.nz/kiwisaver-and-managed-funds/'
            '?fundTypes=all-fund-types&managedFundTypes=kiwisaver&sort=growth-assets-asc')
 
-    driver = selenium.webdriver.Chrome()
+    driver = selenium.webdriver.Chrome(options=chrome_options)
     driver.get(url)
     driver.implicitly_wait(20)  # wait 20 seconds max for elements to load
 
@@ -102,23 +108,14 @@ def get_current_fund(fund):
     Finds values of the current fund and formats them
     """
     fund_values = fund.find_all('div', class_='DoughnutChartWrapper__main-val')
-    return_percentage = fund_values[1].text.strip().split('\n')[0].strip()
+    return_percentage = fund_values[1].text.strip().split('\n')[0].strip().rstrip('%')
 
     # We skip funds that don't have five-year data
     if return_percentage == 'No five-year data available':
         return None
 
-    if return_percentage[-1] == '%':
-        return_percentage = return_percentage[:-1]
-
-    fee_percentage = fund_values[0].text.strip().split('\n')[0].strip()
-
-    if fee_percentage[-1] == '%':
-        fee_percentage = return_percentage[:-1]
-
     return_percentage = float(return_percentage)
-    fee_percentage = float(fee_percentage)
-
+    fee_percentage = float(fund_values[0].text.strip().split('\n')[0].strip().rstrip('%'))
     provider_name = fund.find('p', class_='FundTile__category').text.strip()
     fund_name = fund.find('h3', class_='FundTile__title').text.strip()
     fund_link = fund.find('a', href=True)['href']
@@ -216,25 +213,9 @@ def reformat_for_json(my_funds):
     """
     headers = get_headers()
     json_funds = []
+
     for fund in my_funds:
-        json_funds.append({
-            headers[0]: fund[0],
-            headers[1]: fund[1],
-            headers[2]: fund[2],
-            headers[3]: fund[3],
-            headers[4]: fund[4],
-            headers[5]: fund[5],
-            headers[6]: fund[6],
-            headers[7]: fund[7],
-            headers[8]: fund[8],
-            headers[9]: fund[9],
-            headers[10]: fund[10],
-            headers[11]: fund[11],
-            headers[12]: fund[12],
-            headers[13]: fund[13],
-            headers[14]: fund[14],
-            headers[15]: fund[15]
-        })
+        json_funds.append(dict(zip(headers, fund)))
 
     return json_funds
 
