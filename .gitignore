@@ -1,3 +1,8 @@
+# Generated files
+sorted.html
+sorted.csv
+sorted.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
